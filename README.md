@@ -1,212 +1,190 @@
-🌴 Resort Management System
+📡 LAN File Transfer Using Sliding Window Protocol
 
-A full-stack hotel & resort management web application built using Next.js, Node.js/Express, MongoDB, and Cloudinary.
-This system allows customers to browse rooms, view details, check availability, and make bookings.
-It also includes a complete Admin Panel for managing rooms, reservations, users, and uploads.
+A networking project that implements reliable file transfer over a Local Area Network (LAN) using the Sliding Window Protocol, simulating core behaviors of TCP such as flow control, acknowledgements, retransmissions, and packet sequencing.
 
-🚀 Features
-🏡 Frontend (Next.js)
+📌 Project Overview
 
-Fully responsive UI
+This project demonstrates how reliable data transfer works at the transport layer by implementing the Sliding Window Protocol from scratch.
 
-Home page with featured rooms
+The system works in a client–server model, where:
 
-Room listing with price, type, and occupancy
+The client reads a file and breaks it into packets.
 
-Dynamic room pages /rooms/[slug]
+Packets are sent over the network using a sliding window mechanism.
 
-Image carousel and gallery
+The server receives packets, sends acknowledgements (ACKs), and reassembles the file in correct order.
 
-Booking form with date selection
+Lost or corrupted packets are detected and retransmitted.
 
-User authentication (login/register)
+The project is designed for LAN environments to provide fast and efficient file transfer while ensuring data integrity and reliability.
 
-User dashboard for booking history
+🎯 Key Objectives
 
-Global state management
+To understand and implement flow control
 
-Integrated API calls to backend
+To simulate reliable data transmission
 
-Error-free ESLint configuration
+To demonstrate packet loss handling
 
-SEO optimized Next.js pages
+To understand network congestion handling concepts
 
-⚙️ Backend (Node.js / Express)
+To visualize transport layer protocol operations
 
-REST API for rooms, bookings, and users
+🧰 Technologies Used
+Programming Language
 
-JWT-based authentication
+C / C++ (Socket Programming)
 
-Secure password hashing (bcrypt)
+Networking Concepts
 
-Room availability check
+Sliding Window Protocol
 
-Admin-only protected routes
+TCP-like Reliability Mechanisms
 
-Booking creation & management
+Sequence Numbers
 
-Room CRUD operations
+Acknowledgements (ACKs)
 
-Image upload using multer → cloudinary
+Timeout & Retransmission
 
-MongoDB schema for users, rooms, bookings
+Flow Control
 
-Seed script to populate initial data (npm run seed)
+Tools
 
-🗄️ Database (MongoDB)
+GCC Compiler
 
-Document schemas for:
+Linux / Windows (WSL or MinGW)
 
-Users
+Wireshark (optional for packet analysis)
 
-Rooms
+⚙️ How the System Works (Workflow)
 
-Bookings
+Client selects a file to send.
 
-Automatic relation mapping
+File is divided into multiple fixed-size packets.
 
-Indexing for efficient room lookup
+A sliding window of size N is used:
 
-🛠️ Tech Stack
-Frontend
+Sender can send up to N packets without waiting for ACKs.
 
-Next.js 14
+Receiver:
 
-React 18
+Sends positive ACKs for correctly received packets.
 
-Axios
+Requests retransmission if a packet is lost.
 
-Tailwind CSS
+Sender:
 
-Swiper.js (image carousel)
+Slides the window forward when ACKs are received.
 
-Backend
+Retransmits packets when timeout occurs.
 
-Node.js
+Server rebuilds the file in the correct order.
 
-Express.js
-
-MongoDB + Mongoose
-
-JWT Authentication
-
-Multer
-
-Cloudinary SDK
-
-dotenv
-
-📦 Project Structure
-ResortManagementSystem/
+📂 Project Structure
+LAN-File-Transfer-Sliding-Window/
 │
-├── frontend/
-│   ├── pages/
-│   ├── components/
-│   ├── styles/
-│   ├── utils/
-│   ├── public/
-│   └── package.json
-│
-├── backend/
-│   ├── controllers/
-│   ├── routes/
-│   ├── models/
-│   ├── middleware/
-│   ├── utils/
-│   ├── config/
-│   └── package.json
-│
-└── README.md
+├── client.c
+├── server.c
+├── sliding_window.c
+├── sliding_window.h
+├── Makefile
+├── README.md
+└── test_files/
 
-🧑‍💻 Installation & Setup
-1️⃣ Clone the Repository
-git clone https://github.com/YOUR-USERNAME/ResortManagementSystem.git
-cd ResortManagementSystem
+🚀 How to Run the Project
+1️⃣ Compile the Code
+gcc server.c -o server
+gcc client.c -o client
 
-🔧 Backend Setup
-2️⃣ Install dependencies
-cd backend
-npm install
+2️⃣ Start the Server
+./server
 
 
-If multer version error comes, correct version is:
+The server starts listening on a specific port.
 
-npm install multer@1.4.5-lts.1
-
-3️⃣ Setup environment variables
-
-Create a .env file:
-
-PORT=5000
-MONGO_URI=your_mongodb_url
-JWT_SECRET=your_secret
-CLOUDINARY_CLOUD_NAME=xxxx
-CLOUDINARY_API_KEY=xxxx
-CLOUDINARY_API_SECRET=xxxx
-
-4️⃣ Run seed script (optional)
-npm run seed
-
-5️⃣ Start backend server
-npm start
-
-🎨 Frontend Setup
-6️⃣ Install dependencies
-cd ../frontend
-npm install
-
-7️⃣ Start frontend
-npm run dev
+3️⃣ Run the Client
+./client
 
 
-Frontend will start at:
-👉 http://localhost:3000
+Enter:
 
-Backend runs at:
-👉 http://localhost:5000
+Server IP Address
 
-🧰 Admin Panel
+Port Number
 
-Admin can:
+File name to transfer
 
-Add/edit/delete rooms
+🧪 Example Output
 
-Upload images
+Client Side:
 
-View all bookings
+Sending packet 1
+Sending packet 2
+Sending packet 3
+ACK received for packet 1
+Sliding window updated
 
-Manage users
 
-Approve or reject bookings
+Server Side:
 
-Admin login made through seeded data:
+Packet 1 received
+Packet 2 received
+ACK sent
+File reconstruction in progress...
 
-email: admin@example.com
-password: 123456
+✅ Functionalities
+Sender (Client)
 
-📸 Screenshots (Optional Section)
+File selection and reading
 
-You can add your screenshots here.
+Packet creation and sequencing
 
-Example:
+Sliding window transmission
 
-/screenshots/home.png
-/screenshots/room_details.png
+Timeout-based retransmissions
 
-📡 API Endpoints (Summary)
-Rooms
-GET /api/rooms
-GET /api/rooms/:slug
-POST /api/rooms (Admin)
-PUT /api/rooms/:id (Admin)
-DELETE /api/rooms/:id (Admin)
+Receiver (Server)
 
-Bookings
-POST /api/bookings
-GET /api/bookings/user
-GET /api/bookings (Admin)
+Packet validation
 
-Users
-POST /api/auth/register
-POST /api/auth/login
-GET /api/auth/profile
+Out-of-order packet handling
+
+ACK generation
+
+File reconstruction
+
+🔐 Reliability Features Implemented
+Feature	Description
+Sliding Window	Controls number of unacknowledged packets
+Sequence Numbers	Maintains packet ordering
+Timeout	Detects packet loss
+Retransmission	Resends lost packets
+ACK System	Confirms delivery
+📈 Performance Benefits
+
+Reduces waiting time compared to Stop-and-Wait
+
+Improves network utilization
+
+Efficient for large file transfers on LAN
+
+📚 Applications
+
+LAN File Sharing Systems
+
+Reliable Data Transfer Simulations
+
+Networking Protocol Teaching Tool
+
+OSI/TCP-IP educational projects
+
+🚧 Future Enhancements
+
+Add Selective Repeat ARQ support
+
+Add encryption for data packets
+
+GUI-based client interface
+
+Progress bar for file transfer
